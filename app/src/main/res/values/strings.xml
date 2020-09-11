@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">bus_tracker</string>
+    <string name="app_name">Bus Schedule</string>
     <string name="default_notification_channel_id">bus_tracker</string>
     <string name="default_notification_channel_name">bus_tracker</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="sharedPrefName">bus_tracker</string>
 </resources>
