@@ -44,11 +44,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private int updateTimeInterval = 60000;
+    private int updateTimeInterval = 10000;
     private int LOCATION_PERMISSION_ID = 44;
-    private Marker userLocationMarker, trainLocationMarker;
+    private Marker userLocationMarker, BusLocationMarker;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private Handler updateUserLocationFromGPSReceivedAndBusCurrentLocationFromAPIHandler;
+    private Handler updateUserAndBusLocationHandler;
     private LatLng userLocation;
     private Boolean isGpsLocationEnableChecked = false;
     private Dialog gpsEnableDialog;
@@ -65,8 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void initMap() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -105,12 +104,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         userLocationMarker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
-                .title("My location"));
-        //       .icon(bitmapDescriptorFromVector(this, R.drawable.ic_user_marker)));
+                .title("My location")
+                .icon(bitmapDescriptorFromVector(this, R.drawable.ic_user_marker)));
         // .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_gps)));
         //.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_marker)));
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nearest_station.getStationGPS(),zoom));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 200));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
     }
 
 
@@ -213,14 +212,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
 
         if (isLocationPermissionsGiven()) {
-            getLastLocation(this::setMarker);
+            // getLastLocation(this::setMarker);
+            updateUserLocationAndBusCurrentLocationFromAPI();
         }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (updateUserAndBusLocationHandler != null)
+            updateUserAndBusLocationHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -233,6 +240,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this, "press again to exit", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+
+    private void updateUserLocationAndBusCurrentLocationFromAPI() {
+        updateUserAndBusLocationHandler = new Handler();
+
+        final Runnable userLocationSendingRunnable = new Runnable() {
+            public void run() {
+
+                if (BuildConfig.DEBUG) {
+                    System.out.println(">>>>>>>>> user and bus location is updated on the map");
+                }
+                getLastLocation((latitude, longitude) -> {
+                    userLocation = new LatLng(latitude, longitude);
+                    userLocationMarker.setPosition(userLocation);
+                });
+
+                updateUserAndBusLocationHandler.postDelayed(this, updateTimeInterval);
+            }
+        };
+        updateUserAndBusLocationHandler.postDelayed(userLocationSendingRunnable, 0);
     }
 
 
