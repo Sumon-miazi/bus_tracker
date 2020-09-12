@@ -40,6 +40,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.snackbar.Snackbar;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -61,6 +63,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         initMap();
         initializeDialog();
+        initSpinner();
+    }
+
+    private void initSpinner() {
+        MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.spinner);
+        spinner.setItems("Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop", "Marshmallow");
+        spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show());
     }
 
     private void initMap() {
