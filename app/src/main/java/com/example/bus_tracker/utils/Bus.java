@@ -1,6 +1,8 @@
 package com.example.bus_tracker.utils;
 
-public class Bus {
+import java.io.Serializable;
+
+public class Bus implements Serializable {
     public int id;
     public String name;
     public String license;

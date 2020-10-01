@@ -15,13 +15,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.bus_tracker.utils.Bus;
 import com.example.bus_tracker.utils.CustomLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -47,18 +50,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private int updateTimeInterval = 10000;
     private int LOCATION_PERMISSION_ID = 44;
+    private Bus bus = null;
     private Marker userLocationMarker, BusLocationMarker;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Handler updateUserAndBusLocationHandler;
     private LatLng userLocation;
     private Boolean isGpsLocationEnableChecked = false;
     private Dialog gpsEnableDialog;
-
+    private TextView busName;
+    private TextView busRoutes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        busName = findViewById(R.id.busNameId);
+        busRoutes = findViewById(R.id.busRoutesId);
+
+        if (getIntent().hasExtra("bus")) {
+            bus = (Bus) getIntent().getSerializableExtra("bus");
+            assert bus != null;
+            busName.setText(bus.name);
+            busRoutes.setText(bus.routes);
+        }
 
         initMap();
         initializeDialog();
@@ -67,6 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void initSpinner() {
         MaterialSpinner spinner = findViewById(R.id.spinner);
+        spinner.setVisibility(View.INVISIBLE);
         spinner.setItems("Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop", "Marshmallow");
         spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show());
     }
@@ -105,10 +121,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.clear();
 
         LatLngBounds bounds;
+        if (bus != null) {
+            bounds = new LatLngBounds.Builder()
+                    .include(new LatLng(latitude, longitude))
+                    .include(new LatLng(bus.lat, bus.lon))
+                    .build();
 
-        bounds = new LatLngBounds.Builder()
-                .include(new LatLng(latitude, longitude))
-                .build();
+            BusLocationMarker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(bus.lat, bus.lon))
+                    .title(bus.name)
+                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_train_marker)));
+        } else {
+            bounds = new LatLngBounds.Builder()
+                    .include(new LatLng(latitude, longitude))
+                    .build();
+        }
+
 
         userLocationMarker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
@@ -117,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_gps)));
         //.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_marker)));
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nearest_station.getStationGPS(),zoom));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
     }
 
 

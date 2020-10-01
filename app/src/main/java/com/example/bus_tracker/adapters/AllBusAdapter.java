@@ -40,7 +40,9 @@ public class AllBusAdapter extends RecyclerView.Adapter<AllBusAdapter.BusViewHol
         holder.busLicense.setText(busArrayList.get(position).license);
         holder.busRoute.setText(busArrayList.get(position).routes);
         holder.busView.setOnClickListener(view -> {
-            context.startActivity(new Intent(context, MapsActivity.class));
+            Intent intent = new Intent(context, MapsActivity.class);
+            intent.putExtra("bus", busArrayList.get(position));
+            context.startActivity(intent);
         });
     }
 
