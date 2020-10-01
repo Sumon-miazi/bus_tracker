@@ -1,13 +1,17 @@
 package com.example.bus_tracker.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bus_tracker.MapsActivity;
 import com.example.bus_tracker.R;
 import com.example.bus_tracker.utils.Bus;
 
@@ -32,7 +36,12 @@ public class AllBusAdapter extends RecyclerView.Adapter<AllBusAdapter.BusViewHol
 
     @Override
     public void onBindViewHolder(@NonNull BusViewHolder holder, int position) {
-
+        holder.busName.setText(busArrayList.get(position).name);
+        holder.busLicense.setText(busArrayList.get(position).license);
+        holder.busRoute.setText(busArrayList.get(position).routes);
+        holder.busView.setOnClickListener(view -> {
+            context.startActivity(new Intent(context, MapsActivity.class));
+        });
     }
 
     @Override
@@ -41,9 +50,18 @@ public class AllBusAdapter extends RecyclerView.Adapter<AllBusAdapter.BusViewHol
     }
 
     public class BusViewHolder extends RecyclerView.ViewHolder {
+        TextView busName;
+        ConstraintLayout busView;
+        TextView busLicense;
+        TextView busRoute;
 
         public BusViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            busName = itemView.findViewById(R.id.busName_Id);
+            busView = itemView.findViewById(R.id.busViewId);
+            busLicense = itemView.findViewById(R.id.busLicence_id);
+            busRoute = itemView.findViewById(R.id.busRoutes_id);
         }
     }
 }

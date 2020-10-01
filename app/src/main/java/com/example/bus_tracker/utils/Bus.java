@@ -1,9 +1,10 @@
 package com.example.bus_tracker.utils;
 
 public class Bus {
+    public int id;
     public String name;
-    public String licence;
-    public String route;
+    public String license;
+    public String routes;
     public double lat;
     public double lon;
 }

@@ -17,7 +17,6 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -54,7 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng userLocation;
     private Boolean isGpsLocationEnableChecked = false;
     private Dialog gpsEnableDialog;
-    private long time;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void initSpinner() {
-        MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.spinner);
+        MaterialSpinner spinner = findViewById(R.id.spinner);
         spinner.setItems("Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop", "Marshmallow");
         spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show());
     }
@@ -239,17 +238,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             updateUserAndBusLocationHandler.removeCallbacksAndMessages(null);
     }
 
-    @Override
-    public void onBackPressed() {
-
-        if (time + 2000 > System.currentTimeMillis()) {
-            finish();
-        } else {
-            time = System.currentTimeMillis();
-            Toast.makeText(this, "press again to exit", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
 
     private void updateUserLocationAndBusCurrentLocationFromAPI() {

@@ -45,4 +45,8 @@ dependencies {
 
     implementation 'com.github.jaredrummler:material-spinner:1.0.8'
 
+    implementation 'com.mikhaellopez:circularimageview:4.2.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
 }
