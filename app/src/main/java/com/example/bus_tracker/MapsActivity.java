@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.bus_tracker.api.ApiCalls;
 import com.example.bus_tracker.utils.Bus;
 import com.example.bus_tracker.utils.CustomLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -51,10 +52,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int updateTimeInterval = 10000;
     private int LOCATION_PERMISSION_ID = 44;
     private Bus bus = null;
-    private Marker userLocationMarker, BusLocationMarker;
+    private Marker userLocationMarker, busLocationMarker;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Handler updateUserAndBusLocationHandler;
-    private LatLng userLocation;
+    private LatLng userLocation, busLocation;
     private Boolean isGpsLocationEnableChecked = false;
     private Dialog gpsEnableDialog;
     private TextView busName;
@@ -77,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         initMap();
         initializeDialog();
-      //  initSpinner();
+        initSpinner();
     }
 
     private void initSpinner() {
@@ -127,10 +128,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .include(new LatLng(bus.lat, bus.lon))
                     .build();
 
-            BusLocationMarker = mMap.addMarker(new MarkerOptions()
+            busLocationMarker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(bus.lat, bus.lon))
                     .title(bus.name)
                     .icon(bitmapDescriptorFromVector(this, R.drawable.ic_train_marker)));
+
+            if (bus.stoppages != null && !bus.stoppages.isEmpty()) {
+                for (int i = 0; i < bus.stoppages.size(); i++) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(bus.stoppages.get(i).lat, bus.stoppages.get(i).lon))
+                            .title(bus.stoppages.get(i).spot_name)
+                            .icon(bitmapDescriptorFromVector(this, R.drawable.ic_blue_spot)));
+                }
+            }
         } else {
             bounds = new LatLngBounds.Builder()
                     .include(new LatLng(latitude, longitude))
@@ -142,6 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .position(new LatLng(latitude, longitude))
                 .title("My location")
                 .icon(bitmapDescriptorFromVector(this, R.drawable.ic_user_marker)));
+
         // .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_gps)));
         //.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_marker)));
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nearest_station.getStationGPS(),zoom));
@@ -281,6 +292,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     userLocation = new LatLng(latitude, longitude);
                     userLocationMarker.setPosition(userLocation);
                 });
+
+                if (bus != null) {
+                    new ApiCalls().getBusCurrentPositionByBusId(bus.id, (latitude, longitude) -> {
+                        bus.lat = latitude;
+                        bus.lon = longitude;
+
+                        busLocationMarker.setPosition(new LatLng(latitude, longitude));
+                    });
+                }
 
                 updateUserAndBusLocationHandler.postDelayed(this, updateTimeInterval);
             }

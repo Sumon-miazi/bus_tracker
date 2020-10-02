@@ -64,7 +64,7 @@ public class ApiCalls {
                                 bus.lat = object.getDouble("lat");
                                 bus.lon = object.getDouble("long");
 
-                                JSONArray stoppageArray = object.getJSONArray("bus_stop");
+                                JSONArray stoppageArray = object.getJSONArray("bus_stoppages");
                                 ArrayList<Stoppage> stoppages = new ArrayList<>();
 
                                 for (int j = 0; j < stoppageArray.length(); j++) {

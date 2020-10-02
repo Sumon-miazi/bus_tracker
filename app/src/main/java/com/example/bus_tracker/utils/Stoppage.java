@@ -1,6 +1,8 @@
 package com.example.bus_tracker.utils;
 
-public class Stoppage {
+import java.io.Serializable;
+
+public class Stoppage implements Serializable {
     public int id;
     public String spot_name;
     public double lat;
