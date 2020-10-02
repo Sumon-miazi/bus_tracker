@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,8 +42,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.snackbar.Snackbar;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -78,14 +75,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         initMap();
         initializeDialog();
-        initSpinner();
-    }
-
-    private void initSpinner() {
-        MaterialSpinner spinner = findViewById(R.id.spinner);
-        spinner.setVisibility(View.INVISIBLE);
-        spinner.setItems("Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop", "Marshmallow");
-        spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show());
     }
 
     private void initMap() {
@@ -131,7 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             busLocationMarker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(bus.lat, bus.lon))
                     .title(bus.name)
-                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_train_marker)));
+                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_bus_marker)));
 
             if (bus.stoppages != null && !bus.stoppages.isEmpty()) {
                 for (int i = 0; i < bus.stoppages.size(); i++) {
@@ -154,7 +143,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(bitmapDescriptorFromVector(this, R.drawable.ic_user_marker)));
 
         // .icon(BitmapDescriptorFactory.fromResource(R.drawable.user_gps)));
-        //.icon(BitmapDescriptorFactory.fromResource(R.drawable.user_marker)));
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nearest_station.getStationGPS(),zoom));
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
     }
