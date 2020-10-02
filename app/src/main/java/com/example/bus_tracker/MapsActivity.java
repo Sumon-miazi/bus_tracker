@@ -77,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         initMap();
         initializeDialog();
-        initSpinner();
+      //  initSpinner();
     }
 
     private void initSpinner() {

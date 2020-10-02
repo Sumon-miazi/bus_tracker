@@ -6,6 +6,7 @@ import android.content.Context;
 import com.example.bus_tracker.utils.Bus;
 import com.example.bus_tracker.utils.CustomLocation;
 import com.example.bus_tracker.utils.GetAllBuses;
+import com.example.bus_tracker.utils.Stoppage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,6 +64,21 @@ public class ApiCalls {
                                 bus.lat = object.getDouble("lat");
                                 bus.lon = object.getDouble("long");
 
+                                JSONArray stoppageArray = object.getJSONArray("bus_stop");
+                                ArrayList<Stoppage> stoppages = new ArrayList<>();
+
+                                for (int j = 0; j < stoppageArray.length(); j++) {
+                                    JSONObject stoppageArrayJSONObject = stoppageArray.getJSONObject(j);
+                                    Stoppage stoppage = new Stoppage();
+                                    stoppage.id = stoppageArrayJSONObject.getInt("id");
+                                    stoppage.spot_name = stoppageArrayJSONObject.getString("spot_name");
+                                    stoppage.lat = stoppageArrayJSONObject.getDouble("lat");
+                                    stoppage.lon = stoppageArrayJSONObject.getDouble("long");
+
+                                    stoppages.add(stoppage);
+                                }
+
+                                bus.stoppages = stoppages;
                                 buses.add(bus);
                             }
                             getAllBuses.data(buses, jsonObject.optString("message"));
