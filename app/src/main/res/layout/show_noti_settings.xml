@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    android:background="#ffffffff"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="Here you can setup bus notification or disable notification."
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/ableNotiBtnId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@drawable/button_drawable"
+        android:text="anable"
+        android:textColor="#ffffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/disableNotiBtnId"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/disableNotiBtnId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@drawable/button_drawable"
+        android:text="disable"
+        android:textColor="#ffffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ableNotiBtnId" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
