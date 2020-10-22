@@ -6,6 +6,6 @@
 
     <string name="sharedPrefName">bus_tracker</string>
     <string name="enable_gps">জিপিএস ছাড়া এই এপ্সটি সঠিকভাবে কাজ করবে না। সুতরাং, দয়া করে জিপিএস চালু করুন।</string>
-    <string name="enableNoti">জিপিএস ছাড়া এই এপ্সটি সঠিকভাবে কাজ করবে না। সুতরাং, দয়া করে জিপিএস চালু করুন।</string>
-    <string name="disableNoti">জিপিএস ছাড়া এই এপ্সটি সঠিকভাবে কাজ করবে না। সুতরাং, দয়া করে জিপিএস চালু করুন।</string>
+    <string name="enableNoti">To get notification you must click on the day.</string>
+    <string name="disableNoti">To disable of getting notification you have to select the day.</string>
 </resources>

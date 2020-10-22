@@ -102,7 +102,13 @@ public class MainActivity extends AppCompatActivity {
         String topicName = bus.name + "_" + dayName;
 
         System.out.println(">>>>>>>>>>>> " + flag + " " + topicName);
-        if (flag) FirebaseMessaging.getInstance().subscribeToTopic(topicName);
-        else FirebaseMessaging.getInstance().unsubscribeFromTopic(topicName);
+        if (flag) {
+            FirebaseMessaging.getInstance().subscribeToTopic(topicName);
+            Toast.makeText(this, "You successfully subscribe for " + dayName + " notification", Toast.LENGTH_SHORT).show();
+        } else {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(topicName);
+            Toast.makeText(this, "You successfully unsubscribe from " + dayName + " notification", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
