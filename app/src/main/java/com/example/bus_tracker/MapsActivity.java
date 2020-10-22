@@ -56,6 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Boolean isGpsLocationEnableChecked = false;
     private Dialog gpsEnableDialog;
     private TextView busName;
+    private TextView busLicence;
     private TextView busRoutes;
 
     @Override
@@ -65,11 +66,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         busName = findViewById(R.id.busNameId);
         busRoutes = findViewById(R.id.busRoutesId);
+        busLicence = findViewById(R.id.busLicenceId);
 
         if (getIntent().hasExtra("bus")) {
             bus = (Bus) getIntent().getSerializableExtra("bus");
             assert bus != null;
             busName.setText(bus.name);
+            busLicence.setText(bus.license);
             busRoutes.setText(bus.routes);
         }
 
