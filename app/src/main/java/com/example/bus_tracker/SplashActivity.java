@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(SplashActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
-        dialog.setContentView(R.layout.no_internet);
+        dialog.setContentView(R.layout.show_noti_settings);
 
         Button dialogButton = dialog.findViewById(R.id.btn_dialog);
         dialogButton.setOnClickListener(v -> dialog.dismiss());

@@ -22,12 +22,12 @@
 
 
     <Button
-        android:id="@+id/ableNotiBtnId"
+        android:id="@+id/enableNotiBtnId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:background="@drawable/button_drawable"
-        android:text="anable"
+        android:text="enable"
         android:textColor="#ffffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/disableNotiBtnId"
@@ -44,6 +44,6 @@
         android:textColor="#ffffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ableNotiBtnId" />
+        app:layout_constraintStart_toEndOf="@+id/enableNotiBtnId" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

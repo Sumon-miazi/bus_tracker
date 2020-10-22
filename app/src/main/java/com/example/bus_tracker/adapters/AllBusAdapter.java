@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bus_tracker.MapsActivity;
 import com.example.bus_tracker.R;
 import com.example.bus_tracker.utils.Bus;
+import com.example.bus_tracker.utils.GetBusObj;
 
 import java.util.ArrayList;
 
@@ -21,10 +22,12 @@ public class AllBusAdapter extends RecyclerView.Adapter<AllBusAdapter.BusViewHol
 
     private Context context;
     private ArrayList<Bus> busArrayList;
+    private GetBusObj getBusObj;
 
-    public AllBusAdapter(Context context, ArrayList<Bus> busArrayList) {
+    public AllBusAdapter(Context context, ArrayList<Bus> busArrayList, GetBusObj getBusObj) {
         this.context = context;
         this.busArrayList = busArrayList;
+        this.getBusObj = getBusObj;
     }
 
     @NonNull
@@ -44,12 +47,18 @@ public class AllBusAdapter extends RecyclerView.Adapter<AllBusAdapter.BusViewHol
             intent.putExtra("bus", busArrayList.get(position));
             context.startActivity(intent);
         });
+
+        holder.busView.setOnLongClickListener(view -> {
+            getBusObj.busObj(busArrayList.get(position));
+            return false;
+        });
     }
 
     @Override
     public int getItemCount() {
         return busArrayList.size();
     }
+
 
     public class BusViewHolder extends RecyclerView.ViewHolder {
         TextView busName;
