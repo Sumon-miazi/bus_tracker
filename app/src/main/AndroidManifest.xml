@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.bus_tracker">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -21,6 +22,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
+        <service
+            android:name=".services.AlertService"
+            android:enabled="true"
+            android:exported="false" />
 
         <activity
             android:name=".SplashActivity"
@@ -47,7 +52,6 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="userPortrait" />
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="userPortrait" />
