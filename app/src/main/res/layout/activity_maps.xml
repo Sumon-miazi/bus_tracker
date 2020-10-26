@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -40,39 +41,52 @@
 
         <TextView
             android:id="@+id/busNameId"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:text="Bus name"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/busLicenceId"
+            app:layout_constraintEnd_toStartOf="@+id/imageView3"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/busLicenceId"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Bus license"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/busRoutesId"
+            app:layout_constraintEnd_toEndOf="@+id/busNameId"
             app:layout_constraintStart_toStartOf="@+id/busNameId"
             app:layout_constraintTop_toBottomOf="@+id/busNameId" />
 
         <TextView
             android:id="@+id/busRoutesId"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Bus route"
-            android:textColor="@color/colorAccent"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/busNameId"
             app:layout_constraintStart_toStartOf="@+id/busNameId"
             app:layout_constraintTop_toBottomOf="@+id/busLicenceId" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:onClick="setAlarmNotification"
+            android:src="@drawable/ic_baseline_add_alert_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

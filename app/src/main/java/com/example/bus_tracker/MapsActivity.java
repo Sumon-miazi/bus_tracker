@@ -2,6 +2,7 @@ package com.example.bus_tracker;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +16,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
@@ -24,6 +27,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.bus_tracker.api.ApiCalls;
+import com.example.bus_tracker.db.CustomSharedPref;
+import com.example.bus_tracker.service.AlertService;
 import com.example.bus_tracker.utils.Bus;
 import com.example.bus_tracker.utils.CustomLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -58,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TextView busName;
     private TextView busLicence;
     private TextView busRoutes;
+    private ImageView reminder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         busName = findViewById(R.id.busNameId);
         busRoutes = findViewById(R.id.busRoutesId);
         busLicence = findViewById(R.id.busLicenceId);
+        reminder = findViewById(R.id.imageView3);
 
         if (getIntent().hasExtra("bus")) {
             bus = (Bus) getIntent().getSerializableExtra("bus");
@@ -78,6 +85,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         initMap();
         initializeDialog();
+
+        assert bus != null;
+        if (isMyServiceRunning(AlertService.class) && CustomSharedPref.getInstance(this).getBusId() != bus.id) {
+            toggleReminderBtn(reminder, true);
+        } else toggleReminderBtn(reminder, false);
     }
 
     private void initMap() {
@@ -319,5 +331,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         dialogButton.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    public void setAlarmNotification(View view) {
+        if (isMyServiceRunning(AlertService.class)) {
+            stopService(new Intent(this, AlertService.class));
+            toggleReminderBtn(view, false);
+        } else {
+            CustomSharedPref.getInstance(this).setBusId(bus.id);
+            startService(new Intent(this, AlertService.class));
+            toggleReminderBtn(view, true);
+        }
+    }
+
+    private void toggleReminderBtn(View view, boolean flag) {
+        if (flag) {
+            view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_add_alert));
+        } else {
+            view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_add_alert_white));
+        }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
