@@ -85,12 +85,14 @@ public class MainActivity extends AppCompatActivity {
         TextView wednesday = dialog.findViewById(R.id.wednesdayId);
         TextView thursday = dialog.findViewById(R.id.thursdayId);
 
-        saturday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "saturday"));
-        sunday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "sunday"));
-        monday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "monday"));
-        tuesday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "tuesday"));
-        wednesday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "wednesday"));
-        thursday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "thursday"));
+        //{ "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY" };
+
+        saturday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "SATURDAY"));
+        sunday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "SUNDAY"));
+        monday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "MONDAY"));
+        tuesday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "TUESDAY"));
+        wednesday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "WEDNESDAY"));
+        thursday.setOnClickListener(v -> subscribeAndUnsubscribeNotification(enableClicked, "THURSDAY"));
 
         Button btn_dialog = dialog.findViewById(R.id.btn_dialog);
         btn_dialog.setOnClickListener(v -> dialog.dismiss());
@@ -99,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void subscribeAndUnsubscribeNotification(boolean flag, String dayName) {
-        String topicName = bus.name + "_" + dayName;
+        String topicName = bus.name.replaceAll(" ", "_").toLowerCase() + "_" + dayName.toLowerCase();
 
-        System.out.println(">>>>>>>>>>>> " + flag + " " + topicName);
+        System.out.println(">>>>>>>>>>>>topic name = " + flag + " " + topicName);
         if (flag) {
             FirebaseMessaging.getInstance().subscribeToTopic(topicName);
             Toast.makeText(this, "You successfully subscribe for " + dayName + " notification", Toast.LENGTH_SHORT).show();
