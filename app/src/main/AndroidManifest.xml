@@ -23,7 +23,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <service
-            android:name=".services.AlertService"
+            android:name=".service.AlertService"
             android:enabled="true"
             android:exported="false" />
 

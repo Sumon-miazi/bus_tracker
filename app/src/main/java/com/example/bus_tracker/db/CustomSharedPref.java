@@ -22,46 +22,6 @@ public class CustomSharedPref {
         return customSharedPref;
     }
 
-    public void setInternetConnectionHasDisabled(boolean value) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("InternetConnectionHasDisabled", value);
-        editor.apply();
-    }
-
-    public boolean wasInternetConnectionDisabled() {
-        return sharedPreferences.getBoolean("InternetConnectionHasDisabled", false);
-    }
-
-    public void setGpsHasDisabled(boolean value) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("GpsHasDisabled", value);
-        editor.apply();
-    }
-
-    public boolean wasGpsDisabled() {
-        return sharedPreferences.getBoolean("GpsHasDisabled", false);
-    }
-
-    public void setEmail(String value) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("savedEmail", value);
-        editor.apply();
-    }
-
-    public String getSavedEmail() {
-        return sharedPreferences.getString("savedEmail", "");
-    }
-
-    public String getUserName() {
-        return sharedPreferences.getString("driverName", "Driver name");
-    }
-
-    public void setUserName(String value) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("driverName", value);
-        editor.apply();
-    }
-
     public int getBusId() {
         return sharedPreferences.getInt("BusId", 0);
     }
