@@ -21,6 +21,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -87,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         initializeDialog();
 
         assert bus != null;
-        if (isMyServiceRunning(AlertService.class) && CustomSharedPref.getInstance(this).getBusId() != bus.id) {
+        if (isMyServiceRunning(AlertService.class) && CustomSharedPref.getInstance(this).getBusId() == bus.id) {
             toggleReminderBtn(reminder, true);
         } else toggleReminderBtn(reminder, false);
     }
@@ -288,9 +289,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Runnable userLocationSendingRunnable = new Runnable() {
             public void run() {
 
-                if (BuildConfig.DEBUG) {
-                    System.out.println(">>>>>>>>> user and bus location is updated on the map");
-                }
                 getLastLocation((latitude, longitude) -> {
                     userLocation = new LatLng(latitude, longitude);
                     userLocationMarker.setPosition(userLocation);
@@ -334,21 +332,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void setAlarmNotification(View view) {
+        System.out.println(">>>>>>>>>>>> " + "reminder clicked");
         if (isMyServiceRunning(AlertService.class)) {
             stopService(new Intent(this, AlertService.class));
-            toggleReminderBtn(view, false);
+            toggleReminderBtn((ImageView) view, false);
         } else {
             CustomSharedPref.getInstance(this).setBusId(bus.id);
             startService(new Intent(this, AlertService.class));
-            toggleReminderBtn(view, true);
+            toggleReminderBtn((ImageView) view, true);
+            Toast.makeText(this, "you will be notified if the bus comes near to you about 1 km", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void toggleReminderBtn(View view, boolean flag) {
+    private void toggleReminderBtn(ImageView view, boolean flag) {
+        System.out.println(">>>>>>>>>>>> " + "toggleReminderBtn " + flag);
         if (flag) {
-            view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_add_alert));
+            view.setImageResource(R.drawable.ic_baseline_add_alert);
         } else {
-            view.setBackground(getResources().getDrawable(R.drawable.ic_baseline_add_alert_white));
+            view.setImageResource(R.drawable.ic_baseline_add_alert_white);
         }
     }
 

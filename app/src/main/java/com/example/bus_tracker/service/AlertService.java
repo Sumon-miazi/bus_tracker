@@ -55,6 +55,7 @@ public class AlertService extends Service {
 
             if (userAndBusDistance < 1) {
                 sendNotification();
+                stopSelf();
             }
         });
 
@@ -115,7 +116,7 @@ public class AlertService extends Service {
 
     @Override
     public void onCreate() {
-
+        // Toast.makeText(this, "onCreate clicked", Toast.LENGTH_SHORT).show();
         initializeLocationManager();
 
         try {
