@@ -54,16 +54,19 @@ public class AlertService extends Service {
             double userAndBusDistance = haversineDistance.calculate(latitude, longitude);
 
             if (userAndBusDistance < 1) {
-                sendNotification();
+                sendNotification("Hello there, the bus is near you about less then 1km");
                 stopSelf();
+            } else if (userAndBusDistance < 10) {
+                sendNotification("Hello there, the bus is near you about less then 10km");
+            } else if (userAndBusDistance < 20) {
+                sendNotification("Hello there, the bus is near you about less then 20km");
             }
         });
 
     }
 
-    private void sendNotification() {
+    private void sendNotification(String bodyTxt) {
         String title = "Reminder alert";
-        String messageBody = "Hello dear, the bus is near you about less then 1km";
         Intent intent = new Intent(this, MainActivity.class);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -80,7 +83,7 @@ public class AlertService extends Service {
                         //   .setContent(notificationView)
                         .setSmallIcon(R.drawable.logo)
                         .setContentTitle(title)
-                        .setContentText(messageBody)
+                        .setContentText(bodyTxt)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);
